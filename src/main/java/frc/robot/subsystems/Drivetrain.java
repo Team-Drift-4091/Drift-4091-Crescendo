@@ -115,24 +115,32 @@ public class Drivetrain extends SwerveDrivetrain {
   private final PhotonVisionWrapper photonVision;
 
   // Objects to hold module related things, such as motors, and motor wrappers (drive and steer controllers)
+
+  // Front Left
   private static final WPI_TalonFX frontLeftDriveMotor = new WPI_TalonFX(FrontLeft.DRIVE_CHANNEL);
   private static final DriveController frontLeftDriveController = new FalconDriveController(frontLeftDriveMotor, _config);
   private static final WPI_TalonFX frontLeftSteerMotor = new WPI_TalonFX(FrontLeft.STEER_CHANNEL);
   private static final WPI_CANCoder frontLeftEncoder = new WPI_CANCoder(FrontLeft.CANCODER_CHANNEL);
   private static final BoringFalconSteerController frontLeftSteerController = new BoringFalconSteerController(frontLeftSteerMotor, frontLeftEncoder, steerP, steerI, steerD);
   private static final SwerveModule frontLeft = new SwerveModule(frontLeftDriveController, frontLeftSteerController);
+
+  // Front Right
   private static final WPI_TalonFX frontRightDriveMotor = new WPI_TalonFX(FrontRight.DRIVE_CHANNEL);
   private static final DriveController frontRightDriveController = new FalconDriveController(frontRightDriveMotor, _config);
   private static final WPI_TalonFX frontRightSteerMotor = new WPI_TalonFX(FrontRight.STEER_CHANNEL);
   private static final WPI_CANCoder frontRightEncoder = new WPI_CANCoder(FrontRight.CANCODER_CHANNEL);
   private static final BoringFalconSteerController frontRightSteerController = new BoringFalconSteerController(frontRightSteerMotor, frontRightEncoder, steerP, steerI, steerD);
   private static final SwerveModule frontRight = new SwerveModule(frontRightDriveController, frontRightSteerController);
+  
+  // Back Left
   private static final WPI_TalonFX backLeftDriveMotor = new WPI_TalonFX(BackLeft.DRIVE_CHANNEL);
   private static final DriveController backLeftDriveController = new FalconDriveController(backLeftDriveMotor, _config);
   private static final WPI_TalonFX backLeftSteerMotor = new WPI_TalonFX(BackLeft.STEER_CHANNEL);
   private static final WPI_CANCoder backLeftEncoder = new WPI_CANCoder(BackLeft.CANCODER_CHANNEL);
   private static final BoringFalconSteerController backLeftSteerController = new BoringFalconSteerController(backLeftSteerMotor, backLeftEncoder, steerP, steerI, steerD);
   private static final SwerveModule backLeft = new SwerveModule(backLeftDriveController, backLeftSteerController);
+
+  //Back Right  
   private static final WPI_TalonFX backRightDriveMotor = new WPI_TalonFX(BackRight.DRIVE_CHANNEL);
   private static final DriveController backRightDriveController = new FalconDriveController(backRightDriveMotor, _config);
   private static final WPI_TalonFX backRightSteerMotor = new WPI_TalonFX(BackRight.STEER_CHANNEL);
