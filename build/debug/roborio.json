@@ -1,0 +1,9 @@
+[
+  {
+    "type": "java",
+    "name": "frcJava",
+    "port": 8349,
+    "target": "10.40.91.2",
+    "project": "Drift-4091-Crescendo"
+  }
+]

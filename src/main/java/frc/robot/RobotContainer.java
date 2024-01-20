@@ -19,11 +19,8 @@ import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.commands.DriveToAndIntakeCube;
 import frc.robot.commands.autonomous.AutonomousCommandManager;
-import frc.robot.commands.autonomous.ScoringLocationManager.ScoringLevel;
-import frc.robot.commands.claw.*;
-import frc.robot.commands.clawjoint.*;
+
 import frc.robot.commands.drivetrain.*;
 import frc.robot.commands.leds.*;
 import frc.robot.subsystems.*;
@@ -37,8 +34,6 @@ import frc.team1891.common.control.POVTrigger.POV;
 public class RobotContainer {
   // Subsystems
   private final Drivetrain drivetrain = Drivetrain.getInstance();
-  private final ClawJoint clawJoint = ClawJoint.getInstance();
-  private final Claw claw = Claw.getInstance();
   private final LEDs leds = LEDs.getInstance();
 
   // controllers: PS4
@@ -119,10 +114,7 @@ public class RobotContainer {
       )
     );
 
-    clawJoint.setDefaultCommand(
-      new HomeClawPosition(clawJoint)
-    );
-
+   
     alignForward.onTrue(new AbsoluteAngleJoystickDrive(drivetrain, 
       () -> ps4Controller.getLeftY(), 
       () -> ps4Controller.getLeftX(), 
@@ -147,32 +139,7 @@ public class RobotContainer {
       drivetrain.resetGyro();
     }));
 
-    resetGyroPitch.onTrue(new InstantCommand(() -> BalanceOnChargingStationLinear.calibrateOffset()));
-
-    scoreLow.onTrue(new ParallelRaceGroup(
-      new Shoot(claw, ScoringLevel.HYBRID).withTimeout(.4),
-      new CustomColor(leds, 0, 50, 0)));
-    scoreMid.onTrue(new ParallelRaceGroup(
-      new Shoot(claw, ScoringLevel.MID).withTimeout(.4),
-      new CustomColor(leds, 0, 50, 0)));
-    scoreHigh.onTrue(new ParallelRaceGroup(
-      new Shoot(claw, ScoringLevel.HIGH).withTimeout(.4),
-      new CustomColor(leds, 0, 50, 0)));
-    kobeShot.onTrue(new ParallelRaceGroup(
-      new Shoot(claw, .75).withTimeout(.5),
-      new CustomColor(leds, 150, 75, 0)));
-
-    driveToCube.whileTrue(new ParallelRaceGroup(
-      new DriveToAndIntakeCube(drivetrain, claw, clawJoint),
-      new LEDLimelightFault(leds)
-    ));
-
-    runIntake.whileTrue(new Intake(claw));
-  
-    deployIntake.whileTrue(ClawToAngle.intake(clawJoint));
-
-    chargeStationBalance.whileTrue(new BalanceOnChargingStationLinear(drivetrain));
-
+    
     ledRainbow.onTrue(new InstantCommand(() -> {
       leds.start();
       leds.setCustomPattern(LEDPatterns.RAINBOW);
@@ -201,15 +168,7 @@ public class RobotContainer {
 
     // Interrupt claw's default command - for emergencies so we can try to avoid frying the motor
     // This command has a special interrupt behavior, meaning you can't start the claw joint motor again no matter what you press.
-    stopClawJoint.onTrue(new RunCommand(() -> {
-      clawJoint.stop();
-      clawJoint.setIdleMode(IdleMode.kCoast);
-      LEDDefaultCommand.clawHasEStopped = true;
-    }, clawJoint) {
-      public InterruptionBehavior getInterruptionBehavior() {
-        return InterruptionBehavior.kCancelIncoming;
-      };
-    });
+    
   }
 
   // This method runs at the beginning of the match to determine what command runs in autonomous.

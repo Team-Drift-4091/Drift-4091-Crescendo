@@ -11,9 +11,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants.DrivetrainConstants;
-import frc.robot.commands.autonomous.ScoringLocationManager.ScoringLevel;
-import frc.robot.commands.claw.Shoot;
-import frc.robot.subsystems.Claw;
 import frc.robot.subsystems.Drivetrain;
 import frc.team1891.common.trajectory.HolonomicTrajectoryCommandGenerator;
 
@@ -41,41 +38,6 @@ public class AutonomousCommandManager {
 
         // Default do nothing to avoid issues
         commandChooser.setDefaultOption("Default - Do Nothing", null);
-
-        commandChooser.addOption("Shoot High and Taxi - NO BUMP", 
-            new SequentialCommandGroup(
-                new Shoot(Claw.getInstance(), ScoringLevel.HIGH).withTimeout(.4),
-                new RunCommand(() -> Drivetrain.getInstance().fromChassisSpeeds(new ChassisSpeeds(.5, 0, 0)), Drivetrain.getInstance()).withTimeout(6) 
-            )
-        );
-
-        commandChooser.addOption("Shoot High and Taxi - WITH BUMP", 
-            new SequentialCommandGroup(
-                new Shoot(Claw.getInstance(), ScoringLevel.HIGH).withTimeout(.4),
-                new RunCommand(() -> Drivetrain.getInstance().fromChassisSpeeds(new ChassisSpeeds(.75, 0, 0)), Drivetrain.getInstance()).withTimeout(6) 
-            )
-        );
-
-        commandChooser.addOption("Shoot High and Charge", 
-            new SequentialCommandGroup(
-                new Shoot(Claw.getInstance(), ScoringLevel.HIGH).withTimeout(.4),
-                ChargeStation.autoChargeStation(Drivetrain.getInstance())
-            )
-        );
-
-        commandChooser.addOption("Shoot High, Taxi, and Charge", 
-            new SequentialCommandGroup(
-                new Shoot(Claw.getInstance(), ScoringLevel.HIGH).withTimeout(.4),
-                ChargeStation.autoChargeStationWithTaxi(Drivetrain.getInstance())
-            )
-        );
-
-        commandChooser.addOption("Shoot Mid, Taxi, and Charge", 
-            new SequentialCommandGroup(
-                new Shoot(Claw.getInstance(), ScoringLevel.MID).withTimeout(.4),
-                ChargeStation.autoChargeStationWithTaxi(Drivetrain.getInstance())
-            )
-        );
 
         SmartDashboard.putData("Autonomous Chooser", commandChooser);
     }
