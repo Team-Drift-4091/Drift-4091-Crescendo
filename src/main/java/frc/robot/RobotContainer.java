@@ -60,12 +60,6 @@ public class RobotContainer {
    //Triggers and button bindings; PS4
   private final Trigger resetOdometry = new JoystickButton(ps4Controller, PS4Controller.Button.kOptions.value);
 
-  private final Trigger scoreLow = new JoystickButton(ps4Controller, PS4Controller.Button.kCross.value);
-  private final Trigger scoreMid = new JoystickButton(ps4Controller, PS4Controller.Button.kCircle.value);
-  private final Trigger scoreHigh = new JoystickButton(ps4Controller, PS4Controller.Button.kTriangle.value);
-  private final Trigger kobeShot = new JoystickButton(ps4Controller, PS4Controller.Button.kSquare.value);
-  private final Trigger runIntake = new JoystickButton(ps4Controller, PS4Controller.Button.kR1.value);
-
   private final Trigger driveToCube = new JoystickButton(ps4Controller, PS4Controller.Button.kR2.value);
   // private final Trigger alignToCubeNode = new JoystickButton(ps4Controller, PS4Controller.Button.kL2.value);
 
