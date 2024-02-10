@@ -100,36 +100,10 @@ public class LEDs extends SubsystemBase {
           break;
         case TELEOP:
           // Show alliance color
-          if (Robot.isBlueAlliance()) {
-            ledPattern.set(new NonLoopingPattern(LEDPattern.fromConsumer((leds) -> twoColor(leds, 2, 0, 0, 200, 150, 150, 150))));
-          } else {
-            ledPattern.set(new NonLoopingPattern(LEDPattern.fromConsumer((leds) -> twoColor(leds, 2, 200, 0, 0, 150, 150, 150))));
-          }
+    
           break;
         case TELEOP_SPECIAL:
           // Show alliance color
-          if (Robot.isBlueAlliance()) {
-            ledPattern.set(new AlternatingPattern(.5, 
-              LEDPattern.fromConsumer((leds) -> twoColor(leds, 4, 0, 0, 200, 150, 150, 150)),
-              LEDPattern.fromConsumer((leds) -> twoColor(leds, 4, 150, 150, 150, 0, 0, 200))));
-          } else {
-            ledPattern.set(new AlternatingPattern(.5,
-              LEDPattern.fromConsumer((leds) -> twoColor(leds, 4, 200, 0, 0, 150, 150, 150)),  
-              LEDPattern.fromConsumer((leds) -> twoColor(leds, 4, 150, 150, 150, 200, 0, 0))));
-          }
-          break;
-        case FAULT:
-          ledPattern.set(new AlternatingPattern(.25,
-            LEDPattern.setRGB(255, 0, 0), 
-            LEDPattern.setRGB(100, 0, 0)
-          ));
-          break;
-        case CUBE_TARGET:
-          ledPattern.set(LEDPatterns.RAINBOW);
-          break;
-        case CUBE_HOLD:
-          ledPattern.set(new NonLoopingPattern(LEDPattern.fromConsumer((leds) -> LEDPattern.setRGB(40, 20, 80))));
-          break;
       }
     }
   }

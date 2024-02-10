@@ -7,8 +7,8 @@ package frc.robot;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.revrobotics.CANSparkMax.IdleMode;
 
-import edu.wpi.first.net.PortForwarder;
-import edu.wpi.first.wpilibj.DriverStation;
+
+
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -32,10 +32,7 @@ public class Robot extends TimedRobot {
     m_robotContainer = new RobotContainer();
     // Port forward ports connected to the camera.  This allows us to access them when connected
     // to the robot over USB.
-    for (int port = 5800; port < 5805; port++) {
-      PortForwarder.add(p ort, "limelight.local", port);
-      PortForwarder.add(port, "photonvision.local", port);
-    }
+
   }
 
   @Override
@@ -96,13 +93,5 @@ public class Robot extends TimedRobot {
   @Override
   public void testExit() {
     Drivetrain.getInstance().setNeutralMode(NeutralMode.Brake);
-  }
-
-  public static boolean isRedAlliance() {
-    return DriverStation.getAlliance().equals(Alliance.Red);
-  }
-
-  public static boolean isBlueAlliance() {
-    return DriverStation.getAlliance().equals(Alliance.Blue);
   }
 }
