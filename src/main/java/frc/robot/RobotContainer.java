@@ -35,6 +35,10 @@ public class RobotContainer {
   // Subsystems
   private final Drivetrain drivetrain = Drivetrain.getInstance();
   private final LEDs leds = LEDs.getInstance();
+  private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
+
+  // Current Controller
+  private final XboxController controller = new XboxController(1);
 
   // controllers: PS4
   private final PS4Controller ps4Controller = new PS4Controller(0) {
@@ -163,6 +167,10 @@ public class RobotContainer {
     // Interrupt claw's default command - for emergencies so we can try to avoid frying the motor
     // This command has a special interrupt behavior, meaning you can't start the claw joint motor again no matter what you press.
     
+    while (controller.getAButton() == true){
+      TurnOnIntake x = new TurnOnIntake(m_intakeSubsystem);
+   }
+   
   }
 
   // This method runs at the beginning of the match to determine what command runs in autonomous.
