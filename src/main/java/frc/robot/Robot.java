@@ -8,7 +8,8 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.revrobotics.CANSparkMax.IdleMode;
 
 
-
+import com.ctre.phoenix6.hardware.TalonFX;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -21,19 +22,28 @@ public class Robot extends TimedRobot {
 
   private RobotContainer m_robotContainer;
 
+  private TalonFX leftMotorOne;
+  private TalonFX leftMotorTwo;
+  private Joystick controller;
+
   private final Thread lazyDashboardThread = new Thread(() -> {
     LazyDashboard.updateAll();
   }, "Update Lazy Dashboard");
 
   @Override
   public void robotInit() {
-    // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
-    // autonomous chooser on the dashboard.
+    // This method is called once when the robot is first started up.
+    // It is used to perform initialization tasks, such as setting up motor controllers, joysticks, and other hardware.
+    // In this method, we instantiate the RobotContainer, which sets up button bindings and autonomous chooser on the dashboard.
+    // We also initialize motor controllers (TalonFX) for driving motors and a joystick for controlling the robot.
+    // Finally, we set the initial speed of the motors to 0 to ensure they start at a stopped state.
     m_robotContainer = new RobotContainer();
-    // Port forward ports connected to the camera.  This allows us to access them when connected
-    // to the robot over USB.
-
-  }
+    leftMotorOne = new TalonFX(20);
+    leftMotorTwo = new TalonFX(21);
+    controller = new Joystick(0);
+    leftMotorOne.set(0);
+    leftMotorTwo.set(0);
+}
 
   @Override
   public void robotPeriodic() {
@@ -73,7 +83,29 @@ public class Robot extends TimedRobot {
   }
 
   @Override
-  public void teleopPeriodic() {}
+  public void teleopPeriodic() {
+    // In this method, we read the values of the left and right triggers on the controller, which control the intake and shooter motors respectively.
+    // We calculate the motor speeds based on the trigger values, where the left trigger controls the intake and the right trigger controls the shooter.
+    // Then, we set the motor speeds accordingly to achieve the desired movement.
+    // Needs to be moved out of robot.java and organized into the subsystems
+    double leftTrigger = controller.getRawAxis(2); // Reads the value of the left trigger
+    double rightTrigger = controller.getRawAxis(3); // Reads the value of the right trigger
+
+    double intakeSpeed = leftTrigger / 2.0; // Calculates intake motor speed (scaled to half for control)
+    double shooterSpeed = rightTrigger; // Shooter motor speed directly controlled by the right trigger
+
+    // Set motor speeds based on trigger values
+    if (intakeSpeed == 0 && shooterSpeed > 0) { // If only the shooter is active
+        leftMotorOne.set(shooterSpeed);
+        leftMotorTwo.set(shooterSpeed);
+    } else if (intakeSpeed > 0 && shooterSpeed == 0) { // If only the intake is active
+        leftMotorOne.set(-intakeSpeed); // Assuming intake needs to spin in reverse direction
+        leftMotorTwo.set(-intakeSpeed); // Assuming intake needs to spin in reverse direction
+    } else { // If neither or both triggers are active
+        leftMotorOne.set(0); // Stop both motors
+        leftMotorTwo.set(0); // Stop both motors
+    }
+}
 
   @Override
   public void teleopExit() {}
