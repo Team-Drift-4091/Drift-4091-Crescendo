@@ -8,8 +8,6 @@ import edu.wpi.first.math.Pair;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
-import frc.robot.Robot;
-
 import static frc.robot.Constants.FIELD_LENGTH;
 
 /**
@@ -26,13 +24,7 @@ import static frc.robot.Constants.FIELD_LENGTH;
 public class MirrorPoses {
     private MirrorPoses() {}
 
-    public static Rotation2d getForwardForAlliance() {
-        if (Robot.isRedAlliance()) {
-            return Rotation2d.fromDegrees(180);
-        } else {
-            return new Rotation2d();
-        }
-    }
+ 
 
     /**
      * If the robot is on the red alliance, the pose and rotation will be mirrored as if the robot were on the other alliance

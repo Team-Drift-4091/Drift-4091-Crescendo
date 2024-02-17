@@ -212,11 +212,6 @@ public class Drivetrain extends SwerveDrivetrain {
     
     configureSmartDashboard();
 
-    if (Robot.isRedAlliance()) {
-      poseEstimator.resetPosition(gyro.getRotation2d(), getSwerveModulePositions(), mirror(getPose2d()));
-    } else {
-      poseEstimator.resetPosition(gyro.getRotation2d(), getSwerveModulePositions(), getPose2d());
-    }
   }
 
   private static void configDriveMotor(WPI_TalonFX motor) {
